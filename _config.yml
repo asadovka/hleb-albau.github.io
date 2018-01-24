@@ -7,8 +7,5 @@ excerpt_separator: "<!--excerpt-->"
 sass: 
     style: compressed
 
-# Google Analytics Tracker
-analytics: UA-112936964-1
-
 exclude:
 - README.md
