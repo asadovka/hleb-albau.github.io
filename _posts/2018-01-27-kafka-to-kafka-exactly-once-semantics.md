@@ -2,6 +2,7 @@
 layout: post
 title:  "Kafka To Kafka Exactly Once Semantics"
 date:   2018-01-27
+excerpt: ""
 ---
 
 >  There are only two hard problems in distributed systems: 2. Exactly once delivery 1. Guaranteed order of messages 2.
@@ -186,4 +187,4 @@ transactions, thus we avoid processing records N times (from failed and complete
 
 While it's definitely easy to implement exactly-once semantic for kafka-to-kafka case, there are some caveats. You 
 should be totally sure, that incoming(consumer) topics will not contain duplicated items itself or process
-items idempotently(but its not possible for many cases, ex: transaction processing with updating address balances).
+items idempotently(but it's not possible for many cases, ex: transaction processing with updating address balances).

@@ -8,3 +8,6 @@ sass:
 
 exclude:
 - README.md
+
+plugins:
+  - jekyll-feed
