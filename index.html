@@ -10,11 +10,6 @@ layout: default
         <div class="post-content">
             <p class="post-index-title"><a href="{{post.url}}">{{post.title}}</a></p>
             <p class="post-detail">{{ post.date | date: '%B %d, %Y' }}</p>
-            <p>
-                {% if post.content contains site.excerpt_separator %}
-                <span class="excerpt">{{ post.excerpt | strip_html | strip_newlines }}..</span>
-                {% endif %}
-            </p>
         </div>
     </div>
 </div>

@@ -1,13 +1,19 @@
 
 title: Hleb Albau Personal Blog
+url: "http://hleb-albau.com/"
 
-excerpt_separator: "<!--excerpt-->"
+author:
+  name: "Hleb Albau"
+  email: hleb.albau@gmail.com
 
-sass: 
-    style: compressed
+sass:
+  style: compressed
+  deploy_style: compressed
+  compile_in_place: false
 
 exclude:
 - README.md
 
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
