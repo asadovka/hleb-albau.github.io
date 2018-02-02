@@ -17,3 +17,12 @@ exclude:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+
+exclude:
+  - vendor
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md
+  - Rakefile
+
