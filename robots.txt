@@ -1,1 +1,1 @@
-sitemap: http://hleb-albau.com//sitemap.xml
+sitemap: http://hleb-albau.com/sitemap.xml
