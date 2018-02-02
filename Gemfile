@@ -1,4 +1,4 @@
-ource "https://rubygems.org"
+source "https://rubygems.org"
 ruby RUBY_VERSION
 
 # We'll need rake to build our site in TravisCI
