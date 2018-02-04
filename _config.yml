@@ -6,6 +6,7 @@ author:
   name: "Hleb Albau"
   email: hleb.albau@gmail.com
 
+permalink: :year/:month/:day/:title
 sass:
   style: compressed
   deploy_style: compressed
