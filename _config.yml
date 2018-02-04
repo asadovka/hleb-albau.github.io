@@ -11,9 +11,6 @@ sass:
   deploy_style: compressed
   compile_in_place: false
 
-exclude:
-- README.md
-
 plugins:
   - jekyll-feed
   - jekyll-sitemap
@@ -25,4 +22,5 @@ exclude:
   - LICENSE
   - README.md
   - Rakefile
-
+  - local-dependencies
+  - local-run

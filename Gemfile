@@ -1,12 +1,10 @@
 source "https://rubygems.org"
-ruby RUBY_VERSION
+ruby "~> 2.5"
 
-# We'll need rake to build our site in TravisCI
 gem "rake", "~> 12"
-gem "jekyll"
+gem "jekyll", "~> 3.7"
 
-group :jekyll_plugins do
-  gem "jekyll-feed"
-  gem "jekyll-sitemap"
-  gem "jekyll-seo-tag"
-end
+
+gem "jekyll-feed", "~> 0.9"
+gem "jekyll-sitemap", "~> 1.2"
+gem "jekyll-seo-tag", "~> 2.4"
