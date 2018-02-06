@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <title>{{ page.title }} - {{site.title}}</title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google-site-verification" content="Ub8E4qroihmivg8yC8RPHxoDnJNLvKtub6rz0rFln7Q"/>
-    {% feed_meta %}
-    <title>{{ page.title }} - {{site.title}}</title>
+
     <link rel="stylesheet" href="/css/main.css">
-    <!--   Syntax highlighting is only needed for posts -->
-    {% if page.layout == 'post' %}
-    <link rel="stylesheet" href="/css/syntax-highlighter.css">
-    {% endif %}
+    <link rel="stylesheet" href="/css/prism.css">
+
     <link href="//fonts.googleapis.com/css?family=Space+Mono|Work+Sans:700" rel="stylesheet">
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <script src="/js/prism.js"></script>
+
     <link rel="icon"
           href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4jWNYem35f0owwzAygIGBAVUCCx+GSTYArxxVDUDHRMkNLi9QZMDAJ6ShawAAL/7WedGlj7QAAAAASUVORK5CYII="
           type="image/png">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 <body>
 

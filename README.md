@@ -12,5 +12,5 @@ docker build -f local-dependencies -t hleb-albau-local-dependencies .
 Run local site build
 ```
 docker build -f local-run -t hleb-albau-local-run . \
-&& docker run -it --rm -v "$PWD":/usr/src/app -p "4000:4000" -v ${PWD}:/jekyll-build hleb-albau-local-run
+&& docker run -it --rm -v ${PWD}:/jekyll-build -p "4000:4000" hleb-albau-local-run
 ```

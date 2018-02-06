@@ -6,6 +6,7 @@ author:
   name: "Hleb Albau"
   email: hleb.albau@gmail.com
 
+highlighter: none
 permalink: :year/:month/:day/:title
 sass:
   style: compressed
@@ -15,6 +16,7 @@ sass:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - mm-jekyll-prism
 
 exclude:
   - vendor

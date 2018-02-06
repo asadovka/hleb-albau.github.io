@@ -51,7 +51,7 @@ download file, parse it into list of transactions, and store that list in topic 
 
 First of all we will define our consumers part. Let's start from the general topics messages(records) processor.
 
-{% highlight kotlin %}
+{% prism kotlin %}
 //TopicsRecordsProcessor.kt
 private val log = LoggerFactory.getLogger(TopicsRecordsProcessor::class.java)!!
 
@@ -95,43 +95,45 @@ abstract class TopicsRecordsProcessor<K, V>(private val topic: String) {
         consumer.wakeup()
     }
 }
-{% endhighlight %}
+{% endprism %}
 
 
 As you can see, we just wrap default kafka consumer. Next, we should setup consumer itself.
-{% highlight kotlin %}
+{% prism kotlin %}
 //TransactionFilesProcess.kt
-    private val consumerGroup = "files-with-transactions-group-1"
+private val consumerGroup = "files-with-transactions-group-1"
 
-    private val consumerProperties = Properties().apply {
-        put("bootstrap.servers","localhost")
-        put("group.id", consumerGroup)
-        put("isolation.level", "read_committed")
-        put("enable.auto.commit", false)
-        put("auto.offset.reset", "earliest")
-    }
-{% endhighlight %}
+private val consumerProperties = Properties().apply {
+    put("bootstrap.servers","localhost")
+    put("group.id", consumerGroup)
+    put("isolation.level", "read_committed")
+    put("enable.auto.commit", false)
+    put("auto.offset.reset", "earliest")
+}
+{% endprism %}
 
 Get attention to the two lines here:
 1. `put("isolation.level", "read_committed")` used to process only committed messages to kafka. We will talk about
 transaction a bit latter.
 2. `put("enable.auto.commit", false)` offset management will be done by our process.
-
-
 Same settings for kafka producer.
-{% highlight kotlin %}
+
+
+{% prism kotlin %}
 //TransactionFilesProcess.kt
-    private val producerProperties = Properties().apply {
-        put("bootstrap.servers", "localhost")
-        put("group.id", "transactions-group-1")
-        put("transactional.id", "transactions-group-1-transaction-id")
-    }
-{% endhighlight %}
+private val producerProperties = Properties().apply {
+    put("bootstrap.servers", "localhost")
+    put("group.id", "transactions-group-1")
+    put("transactional.id", "transactions-group-1-transaction-id")
+}
+{% endprism %}
 
 
-Be careful. If your service should scale at some point to N working nodes, than `transactional.id` option should be 
-unique for every node. Now we are ready to define `TransactionFilesProcess.class`
-{% highlight kotlin %}
+Be careful. If your service should scale at some point to N working nodes, than **transactional.id** option should be 
+unique for every node. Now we are ready to define **TransactionFilesProcess.class**
+
+
+``` kotlin
 //TransactionFilesProcess.kt
 class TransactionFilesProcess : TopicsRecordsProcess<String, String>("files-with-transactions") {
 
@@ -166,7 +168,8 @@ class TransactionFilesProcess : TopicsRecordsProcess<String, String>("files-with
         producer.close()
     }
 }
-{% endhighlight %}
+```
+
 
 Listing below is straightforward. We download one file by url, parse it into list of transactions. Create offset 
 object for latter committing consumer position. Kafka transactions are started by producers. To enable transaction 
@@ -176,7 +179,7 @@ consumer offset atomically.
 The send is asynchronous and this method will return immediately once the record has been stored in the buffer of 
 records waiting to be sent. This allows sending many records in parallel without blocking to wait for the response 
 after each one. When used as part of a transaction, it is not necessary to define a callback or check the result of 
-the future in order to detect errors from `send`. If any of the send calls failed with an irrecoverable error, the 
+the future in order to detect errors from `send()`. If any of the send calls failed with an irrecoverable error, the 
 final `commitTransaction()` call will fail and throw the exception from the last failed send. When this happens, your 
 application should call `abortTransaction()` to reset the state and try once again to process record. Also, previously
 we define consumer option `put("isolation.level", "read_committed")` to process only messages from committed 
