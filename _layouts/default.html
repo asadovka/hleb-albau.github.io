@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="google-site-verification" content="Ub8E4qroihmivg8yC8RPHxoDnJNLvKtub6rz0rFln7Q" />
+    <meta name="google-site-verification" content="Ub8E4qroihmivg8yC8RPHxoDnJNLvKtub6rz0rFln7Q"/>
     {% feed_meta %}
     <title>{{ page.title }} - {{site.title}}</title>
     <link rel="stylesheet" href="/css/main.css">
@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="/css/syntax-highlighter.css">
     {% endif %}
     <link href="//fonts.googleapis.com/css?family=Space+Mono|Work+Sans:700" rel="stylesheet">
-    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4jWNYem35f0owwzAygIGBAVUCCx+GSTYArxxVDUDHRMkNLi9QZMDAJ6ShawAAL/7WedGlj7QAAAAASUVORK5CYII=" type="image/png">
+    <link rel="icon"
+          href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4jWNYem35f0owwzAygIGBAVUCCx+GSTYArxxVDUDHRMkNLi9QZMDAJ6ShawAAL/7WedGlj7QAAAAASUVORK5CYII="
+          type="image/png">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 <body>
 
@@ -20,11 +23,45 @@
     <header>
         <a href="/"><h1 class="site-title">{{site.title}}</h1></a>
     </header>
+
+    <div class="contact-list">
+        <ul>
+            <li><a href="/feed.xml" title="Subscribe to my RSS feed">
+                <i class="fas fa-rss fa-2x"></i>
+            </a></li>
+            <li><a href="https://github.com/hleb-albau" title="Follow me on github">
+                <i class="fab fa-github fa-2x"></i>
+            </a></li>
+            <li><a href="https://hub.docker.com/u/hlebalbau/" title="Run my containers">
+                <i class="fab fa-docker fa-2x"></i>
+            </a></li>
+            <li><a href="https://stackoverflow.com/users/2198161/hleb-albau" title="My StackOverflow profile">
+                <i class="fab fa-stack-overflow fa-2x"></i>
+            </a></li>
+            <li><a href="https://www.linkedin.com/in/hlebalbau" title="My LinkedIn profile">
+                <i class="fab fa-linkedin-in fa-2x"></i>
+            </a></li>
+            <li><a href="https://www.instagram.com/hleb.albau/" title="My moments">
+                <i class="fab fa-instagram fa-2x"></i>
+            </a></li>
+            <li><a href="https://www.last.fm/user/MashaZykova" title="My playlists">
+                <i class="fab fa-lastfm-square fa-2x"></i>
+            </a></li>
+            <li><a href="https://twitter.com/hleb_albau" title="Tweet me">
+                <i class="fab fa-twitter fa-2x"></i>
+            </a></li>
+            <li><a href="https://t.me/hleb_albau" title="Chat me">
+                <i class="fab fa-telegram-plane fa-2x"></i>
+            </a></li>
+            <li><a href="mailto:hleb.albau@gmail.com" title="Email me">
+                <i class="fas fa-envelope fa-2x"></i>
+            </a></li>
+        </ul>
+    </div>
+
     {{ content }}
 </div>
 
-<!-- Calling Fontawesome at the end to avoid delay in loading -->
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 {% include analytics.html %}
 </body>
 </html>
