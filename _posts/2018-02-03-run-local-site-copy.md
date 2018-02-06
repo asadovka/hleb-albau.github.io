@@ -77,5 +77,5 @@ docker build -f local-run -t hleb-albau-local-run . \
 && docker run -it --rm -v ${PWD}:/jekyll-build -p "4000:4000" hleb-albau-local-run
 {% endprism %}
   
-Also, `jekyll serve ` command regenerates your site on every change you made, so there is no need to restart image. You
+Also, `jekyll serve` command regenerates your site on every change you made, so there is no need to restart image. You
  can test your changes on the fly. Happy blogging!   
