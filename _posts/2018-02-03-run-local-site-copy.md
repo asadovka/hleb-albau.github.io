@@ -3,6 +3,12 @@ layout: post
 title:  "Run a jekyll blog with custom plugins locally using Docker"
 date:   2018-01-28
 excerpt: ""
+keywords:
+  - jekyll
+  - github
+  - personal blog
+  - custom gems
+  - docker
 ---
 
 ## What's the problem ?

@@ -1,10 +1,30 @@
 
 title: Hleb Albau Personal Blog
-url: "http://hleb-albau.com"
+description: Hleb Albau Personal Blog
+url: http://hleb-albau.com
+lang: en_US
 
 author:
   name: "Hleb Albau"
   email: hleb.albau@gmail.com
+
+
+social:
+  name: Hleb Albau
+  links:
+    - https://github.com/hleb-albau
+    - https://hub.docker.com/u/hlebalbau/
+    - https://stackoverflow.com/users/2198161/hleb-albau
+    - https://www.linkedin.com/in/hlebalbau
+    - https://www.instagram.com/hleb.albau/
+    - https://www.last.fm/user/MashaZykova
+    - https://twitter.com/hleb_albau
+    - https://t.me/hleb_albau
+
+
+webmaster_verifications:
+  google: Ub8E4qroihmivg8yC8RPHxoDnJNLvKtub6rz0rFln7Q
+
 
 highlighter: none
 permalink: :year/:month/:day/:title
@@ -16,6 +36,7 @@ sass:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-seo-tag
   - mm-jekyll-prism
 
 exclude:

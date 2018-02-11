@@ -6,7 +6,6 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="google-site-verification" content="Ub8E4qroihmivg8yC8RPHxoDnJNLvKtub6rz0rFln7Q"/>
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/prism.css">
@@ -19,6 +18,11 @@
     <link rel="icon"
           href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4jWNYem35f0owwzAygIGBAVUCCx+GSTYArxxVDUDHRMkNLi9QZMDAJ6ShawAAL/7WedGlj7QAAAAASUVORK5CYII="
           type="image/png">
+
+    {% if page.date %}<meta name="article:published_time" content="{{ page.date }}">{% endif %}
+    <meta name="keywords" itemprop="keywords"
+          content="kotlin, java, software, programming, blog, hleb albau, {{ page.keywords | join:', ' | xml_escape }}" />
+    {% seo %}
 </head>
 <body>
 
