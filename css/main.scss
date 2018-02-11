@@ -6,8 +6,8 @@
 
 
 // Our variables
-$base-font-family: 'Space Mono', monospace,"Helvetica Neue", Helvetica, Arial, cursive;
-$head-font-family: 'Work Sans',"Helvetica Neue", Helvetica, Arial, sans-serif;
+$base-font-family: 'Space Mono', monospace, cursive;
+$head-font-family: 'Work Sans', sans-serif;
 
 $base-font-size:   18px;
 
@@ -54,7 +54,17 @@ $on-laptop:        800px;
     }
 }
 
-
-
 // Import partials from `sass_dir` (defaults to `_sass`)
 @import "style";
+
+@font-face {
+  font-family: "Space Mono";
+  font-weight: 400;
+  src: url("/font/SpaceMono-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Work Sans";
+  font-weight: 700;
+  src: url("/font/WorkSans-Bold.woff") format("woff");
+}
