@@ -61,10 +61,6 @@ blockquote {
  * Code formatting
  */
 
-.highlighter-rouge {
-  font-family: inherit;
-}
-
 .menu-container {
   position: fixed;
   width: 5rem;
@@ -121,28 +117,33 @@ header {
 
 .post-index {
   display: table;
-  margin: 1rem 0rem;
-  .post-content p {
-    line-height: 1.5em;
-    margin-bottom: 0.1em;
-  }
+  margin: 1rem 0 0 0;
 
-  .post-image {
-    padding-right: 1.4em;
-    padding-top: 1em;
-    i {
-      font-size: 3em;
+  .post-content {
+    display: table-cell;
+    vertical-align: top;
+
+    div {
+      line-height: 1.5em;
+      margin-bottom: 0.1em;
     }
-  }
-  .post-detail {
-    color: lighten($grey-color, 10%);
-    font-size: 0.8em;
-    font-style: italic;
-  }
 
-  a {
-    &:hover {
-      color: $brand-color;
+    .post-detail {
+      font-family: $details-font-family;
+      color: lighten($grey-color, 10%);
+      font-size: 0.8em;
+      font-style: italic;
+      ul {
+        padding: 0;
+      }
+      li {
+        display: inline;
+        margin-right: 15px;
+        white-space: nowrap;
+        i {
+          padding-right: 5px;
+        }
+      }
     }
   }
 }
@@ -160,11 +161,6 @@ header {
       }
     }
   }
-}
-
-.post-index .post-image, .post-index .post-content {
-  display: table-cell;
-  vertical-align: top;
 }
 
 .list {

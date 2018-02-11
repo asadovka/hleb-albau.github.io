@@ -7,6 +7,7 @@
 
 // Our variables
 $base-font-family: 'Space Mono', monospace, cursive;
+$details-font-family: 'Open Sans', monospace, cursive;
 $head-font-family: 'Work Sans', sans-serif;
 
 $base-font-size:   18px;
@@ -68,3 +69,10 @@ $on-laptop:        800px;
   font-weight: 700;
   src: url("/font/WorkSans-Bold.woff") format("woff");
 }
+
+@font-face {
+  font-family: "Open Sans";
+  font-weight: 600;
+  src: url("/font/OpenSans-SemiBold.woff") format("woff");
+}
+

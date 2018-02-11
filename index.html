@@ -9,12 +9,37 @@ keywords:
 ---
 
 
+
 {% for post in site.posts limit:10 %}
+{% assign words = post.content | number_of_words %}
+{% assign time = words | divided_by:180 %}
+
 <div class="list">
     <div class="post-index">
         <div class="post-content">
-            <p class="post-index-title"><a href="{{post.url}}">{{post.title}}</a></p>
-            <p class="post-detail">{{ post.date | date: '%B %d, %Y' }}</p>
+            <div class="post-index-title"><a href="{{post.url}}">{{post.title}}</a></div>
+            <div class="post-detail">
+                <ul>
+                    <li><i class="far fa-calendar"></i>{{ post.date | date: '%B %d, %Y' }}</li>
+                    <li><i class="fas fa-book"></i>{{ post.content | number_of_words }} words</li>
+                    <li><i class="far fa-clock"></i>{% case time %}
+                           {% when 0 %}one
+                           {% when 1 %}one
+                           {% when 2 %}two
+                           {% when 3 %}three
+                           {% when 4 %}four
+                           {% when 5 %}five
+                           {% when 6 %}six
+                           {% when 7 %}seven
+                           {% when 8 %}eight
+                           {% when 9 %}nine
+                        {% else %}
+                           {{ time }}
+                        {% endcase %}
+                        minutes to read</li>
+                    <li><i class="fas fa-comments"></i> <a href="{{site.domain}}{{post.url}}#disqus_thread">comments</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
