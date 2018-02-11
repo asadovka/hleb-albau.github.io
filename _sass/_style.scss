@@ -57,37 +57,13 @@ blockquote {
   }
 }
 
-/**
- * Code formatting
- */
-
-.menu-container {
-  position: fixed;
-  width: 5rem;
-  height: 5rem;
-  overflow: hidden;
-  left: 0;
-  top: 0;
-  transition-delay: .3s;
-}
-
-.menu {
-  position: relative;
-  width: 10rem;
-  height: 10rem;
-  background-color: $brand-color;
-  border-radius: 100%;
-  transform: translate(-50%, -50%);
-  transition: all .3s;
-}
-
 .content {
-  max-width: 950px;
+  max-width: $content-width;
   transition: all .2s;
   transition-delay: .1s;
   margin: 0 auto 100px auto;
-  @include media-query($on-palm) {
-    padding: 1rem 1rem;
+  padding: 1rem 1rem;
+  @include media-query($on-mobile) {
     font-size: 1em;
   }
 
@@ -97,7 +73,6 @@ blockquote {
   }
 }
 
-/* Site CSS */
 h1.site-title {
   font-size: 35px;
   display: inline-block;
@@ -105,8 +80,7 @@ h1.site-title {
   text-transform: uppercase;
   background: transparent;
   color: $text-color;
-  @include media-query($on-palm) {
-    font-size: 35px;
+  @include media-query($on-mobile) {
     margin: 1em 0 0.5em 0;
   }
 }
@@ -162,6 +136,11 @@ header {
     }
   }
 }
+.hide-on-mobile {
+  @include media-query($on-mobile) {
+    display: none !important;
+  }
+}
 
 .list {
   border-bottom: 1px solid #ddd;
@@ -185,7 +164,7 @@ header {
     font-size: 1.8em;
     margin-bottom: 0;
     font-family: $base-font-family;
-    @include media-query($on-palm) {
+    @include media-query($on-mobile) {
       font-size: 1.5em;
     }
   }
@@ -199,7 +178,7 @@ header {
 .logo {
   font-size: 400%;
   padding-right: 0.5em;
-  @include media-query($on-palm) {
+  @include media-query($on-mobile) {
     font-size: 200%;
   }
 
@@ -208,7 +187,7 @@ header {
 .video {
   width: 100%;
   height: 360px;
-  @include media-query($on-palm) {
+  @include media-query($on-mobile) {
     height: 160px;
   }
 }

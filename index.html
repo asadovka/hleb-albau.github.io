@@ -21,8 +21,8 @@ keywords:
             <div class="post-detail">
                 <ul>
                     <li><i class="far fa-calendar"></i>{{ post.date | date: '%B %d, %Y' }}</li>
-                    <li><i class="fas fa-book"></i>{{ post.content | number_of_words }} words</li>
-                    <li><i class="far fa-clock"></i>{% case time %}
+                    <li class="hide-on-mobile"><i class="fas fa-book"></i>{{ post.content | number_of_words }} words</li>
+                    <li class="hide-on-mobile"><i class="far fa-clock"></i>{% case time %}
                            {% when 0 %}one
                            {% when 1 %}one
                            {% when 2 %}two
