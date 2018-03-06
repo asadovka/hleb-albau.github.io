@@ -1,0 +1,55 @@
+==================================================================
+https://keybase.io/hleb_albau
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://hleb-albau.com
+  * I am hleb_albau (https://keybase.io/hleb_albau) on keybase.
+  * I have a public key ASArG8mqT4Yu2KvpAeDE2gIFX4L8qDrl9Ujva3JWdyhk9Qo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01202b1bc9aa4f862ed8abe901e0c4da02055f82fca83ae5f548ef6b7256772864f50a",
+      "host": "keybase.io",
+      "kid": "01202b1bc9aa4f862ed8abe901e0c4da02055f82fca83ae5f548ef6b7256772864f50a",
+      "uid": "3c5709939e152466ce708ab50c501919",
+      "username": "hleb_albau"
+    },
+    "merkle_root": {
+      "ctime": 1520310544,
+      "hash": "a831bd74718c7db8377708f4a905c1f578cf6414d65e565eaf833e22790ac24c55b9eac639bbc7638ce32f847ec6817ff5f74a25116b15a57d63b24cb7a4dc69",
+      "hash_meta": "4bf2a6642803435bde9904eb127cc7f9becb0477cb34c44a6b22d50c9e5b67fb",
+      "seqno": 2189631
+    },
+    "service": {
+      "hostname": "hleb-albau.com",
+      "protocol": "http:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "1.0.44"
+  },
+  "ctime": 1520310557,
+  "expire_in": 504576000,
+  "prev": "7803a30f2afc40547eda279a1dbc68f603e8764a63259cfe6528085e34e374aa",
+  "seqno": 5,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgKxvJqk+GLtir6QHgxNoCBV+C/Kg65fVI72tyVncoZPUKp3BheWxvYWTFA0d7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwMmIxYmM5YWE0Zjg2MmVkOGFiZTkwMWUwYzRkYTAyMDU1ZjgyZmNhODNhZTVmNTQ4ZWY2YjcyNTY3NzI4NjRmNTBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwMmIxYmM5YWE0Zjg2MmVkOGFiZTkwMWUwYzRkYTAyMDU1ZjgyZmNhODNhZTVmNTQ4ZWY2YjcyNTY3NzI4NjRmNTBhIiwidWlkIjoiM2M1NzA5OTM5ZTE1MjQ2NmNlNzA4YWI1MGM1MDE5MTkiLCJ1c2VybmFtZSI6ImhsZWJfYWxiYXUifSwibWVya2xlX3Jvb3QiOnsiY3RpbWUiOjE1MjAzMTA1NDQsImhhc2giOiJhODMxYmQ3NDcxOGM3ZGI4Mzc3NzA4ZjRhOTA1YzFmNTc4Y2Y2NDE0ZDY1ZTU2NWVhZjgzM2UyMjc5MGFjMjRjNTViOWVhYzYzOWJiYzc2MzhjZTMyZjg0N2VjNjgxN2ZmNWY3NGEyNTExNmIxNWE1N2Q2M2IyNGNiN2E0ZGM2OSIsImhhc2hfbWV0YSI6IjRiZjJhNjY0MjgwMzQzNWJkZTk5MDRlYjEyN2NjN2Y5YmVjYjA0NzdjYjM0YzQ0YTZiMjJkNTBjOWU1YjY3ZmIiLCJzZXFubyI6MjE4OTYzMX0sInNlcnZpY2UiOnsiaG9zdG5hbWUiOiJobGViLWFsYmF1LmNvbSIsInByb3RvY29sIjoiaHR0cDoifSwidHlwZSI6IndlYl9zZXJ2aWNlX2JpbmRpbmciLCJ2ZXJzaW9uIjoxfSwiY2xpZW50Ijp7Im5hbWUiOiJrZXliYXNlLmlvIGdvIGNsaWVudCIsInZlcnNpb24iOiIxLjAuNDQifSwiY3RpbWUiOjE1MjAzMTA1NTcsImV4cGlyZV9pbiI6NTA0NTc2MDAwLCJwcmV2IjoiNzgwM2EzMGYyYWZjNDA1NDdlZGEyNzlhMWRiYzY4ZjYwM2U4NzY0YTYzMjU5Y2ZlNjUyODA4NWUzNGUzNzRhYSIsInNlcW5vIjo1LCJ0YWciOiJzaWduYXR1cmUifaNzaWfEQGNh/DVK3CwIw8VwrbB/SynOUd4SaTM9R39lqLB6/DTLwHjs2PPwOVjk4g7MlVh+jOb4yo1BKurwEf11hl1EtA6oc2lnX3R5cGUgpGhhc2iCpHR5cGUIpXZhbHVlxCDCfY1EPDdhfYoYxxq9yDdj4epcmOcFAeailjDjaPVFfKN0YWfNAgKndmVyc2lvbgE=
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/hleb_albau
+
+==================================================================
