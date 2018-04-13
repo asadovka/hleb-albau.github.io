@@ -56,7 +56,7 @@ download file, parse it into list of transactions, and store that list in topic 
 
 First of all we will define our consumers part. Let's start from the general topics messages(records) processor.
 
-{% prism kotlin %}
+``` kotlin
 //TopicsRecordsProcessor.kt
 private val log = LoggerFactory.getLogger(TopicsRecordsProcessor::class.java)!!
 
@@ -100,11 +100,11 @@ abstract class TopicsRecordsProcessor<K, V>(private val topic: String) {
         consumer.wakeup()
     }
 }
-{% endprism %}
+```
 
 
 As you can see, we just wrap default kafka consumer. Next, we should setup consumer itself.
-{% prism kotlin %}
+``` kotlin
 //TransactionFilesProcess.kt
 private val consumerGroup = "files-with-transactions-group-1"
 
@@ -115,7 +115,7 @@ private val consumerProperties = Properties().apply {
     put("enable.auto.commit", false)
     put("auto.offset.reset", "earliest")
 }
-{% endprism %}
+```
 
 Get attention to the two lines here:
 1. `put("isolation.level", "read_committed")` used to process only committed messages to kafka. We will talk about
@@ -124,14 +124,14 @@ transaction a bit latter.
 Same settings for kafka producer.
 
 
-{% prism kotlin %}
+``` kotlin
 //TransactionFilesProcess.kt
 private val producerProperties = Properties().apply {
     put("bootstrap.servers", "localhost")
     put("group.id", "transactions-group-1")
     put("transactional.id", "transactions-group-1-transaction-id")
 }
-{% endprism %}
+```
 
 
 Be careful. If your service should scale at some point to N working nodes, than **transactional.id** option should be 
