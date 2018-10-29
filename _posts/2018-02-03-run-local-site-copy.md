@@ -30,8 +30,6 @@ find very nice article on how to automatize your build of blog with custom plugi
  serve process. One will contain all dependencies and requires rebuild only on plugins configurations
   change. The second will serve generated site. 
 
-### Image with required dependencies
-
   The first thing we will do, is to define image, containing all required dependencies. 
 
 ``` docker
@@ -56,11 +54,7 @@ docker build -f local-dependencies -t hleb-albau-local-dependencies .
 ```
  
 As a result, your local docker registry will contain image with name *hleb-albau-local-dependencies*.
- 
-> You should rebuild **local-dependencies** image each time you add new jekyll gems
-
-
-### Image with jekyll serve
+ Note: you should rebuild **local-dependencies** image each time you add new jekyll gems
 
 Next step is to define image serving generated site.
 

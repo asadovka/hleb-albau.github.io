@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Gradle Multiproject + Kotlin JUnit5 + Jacoco + Coverall.io Integration"
+title:  "Gradle + Kotlin JUnit5 + Jacoco + Coverall.io Integration"
 date:   2018-06-14
 excerpt: ""
 keywords:
@@ -67,7 +67,7 @@ allprojects {
     apply plugin: "jacoco"
 
     jacoco {
-        toolVersion = "0.8.1"
+        toolVersion = "0.8.2"
     }
 }
 ```
@@ -165,7 +165,7 @@ allprojects {
     apply plugin: "jacoco"
 
     jacoco {
-        toolVersion = "0.8.1"
+        toolVersion = "0.8.2"
     }
 }
 

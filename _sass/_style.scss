@@ -25,6 +25,11 @@ h1, h2, h3, h4, h5, h6 {
   font-family: $head-font-family;
 }
 
+h2 {
+  padding-top: 5px;
+  margin-bottom: -15px;
+}
+
 a {
   text-decoration: none;
   color: $brand-color;
@@ -76,7 +81,7 @@ blockquote {
 h1.site-title {
   font-size: 35px;
   display: inline-block;
-  margin: 2em 0 1em 0;
+  margin: 2em 0 0 0;
   text-transform: uppercase;
   background: transparent;
   color: $text-color;
@@ -161,7 +166,10 @@ header {
   vertical-align: middle;
   color: $brand-color;
   h2 {
-    font-size: 1.8em;
+    font-size: 1.6em;
+    padding-top: 0;
+    margin-top: 13px;
+    line-height: 1.4;
     margin-bottom: 0;
     font-family: $base-font-family;
     @include media-query($on-mobile) {

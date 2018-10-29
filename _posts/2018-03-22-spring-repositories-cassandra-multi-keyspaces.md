@@ -21,10 +21,6 @@ For some services we run **Apache Cassandra**  as backing storage. Initially, we
  Its a solid driver with non-blocking api exposed through Guava's `ListenableFuture`. Despite driver is cool, it provides too low level 
  interfaces. At some point, we found us writing similar to **Spring Data Repository** wrappers around default api. So, we decided 
  not to reinvent wheels and try **Spring Data Cassandra**.
-
-> Spring Data Cassandra 2.0.5.RELEASE version is used.
- 
-> You can find more code examples in [our project repo "cybersearch"](https://github.com/cybercongress/cyber-search/tree/master/cassandra-service/src/main/kotlin/fund/cyber/cassandra)  
  
 The first issue we faced using that library was about connecting to multiple keyspaces within single repositories 
  context. Lack of official documentation on this theme forced us to read source code and found out solution. To 
@@ -88,7 +84,9 @@ class BitcoinRepositoriesConfiguration : AbstractReactiveCassandraConfiguration 
 
     @Bean("bitcoinKeyspaceCassandraTemplate")
     fun reactiveCassandraTemplate(): ReactiveCassandraOperations {
-        return ReactiveCassandraTemplate(DefaultReactiveSessionFactory(reactiveSession()), cassandraConverter())
+        return ReactiveCassandraTemplate(
+            DefaultReactiveSessionFactory(reactiveSession()), cassandraConverter()
+        )
     }
 
     @Bean("bitcoinKeyspaceReactiveSession")
