@@ -2,7 +2,7 @@
 <html>
 <head>
 
-    <title>{{ page.title }} - {{site.title}}</title>
+    {% if page.title %}<title>{{page.title}}</title>{% else %}<title>{{site.title}}</title>{% endif %}
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,34 +26,33 @@
 <div class="content">
 
     <header>
-        <a href="/"><h1 class="site-title">{{site.title}}</h1></a>
+        <a href="/"><div class="site-title">{{site.title}}</div></a>
+        <div class="contact-list">
+            <ul>
+                <li><a href="/feed.xml" title="Subscribe to my RSS feed">
+                    <i class="fas fa-rss fa-2x"></i>
+                </a></li>
+                <li><a href="https://github.com/hleb-albau" title="Follow me on github">
+                    <i class="fab fa-github fa-2x"></i>
+                </a></li>
+                <li><a href="https://hub.docker.com/u/hlebalbau/" title="Run my containers">
+                    <i class="fab fa-docker fa-2x"></i>
+                </a></li>
+                <li><a href="https://stackoverflow.com/users/2198161/hleb-albau" title="My StackOverflow profile">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a></li>
+                <li><a href="https://twitter.com/hleb_albau" title="Tweet me">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a></li>
+                <li><a href="https://t.me/hleb_albau" title="Chat me">
+                    <i class="fab fa-telegram-plane fa-2x"></i>
+                </a></li>
+                <li><a href="mailto:hleb.albau@gmail.com" title="Email me">
+                    <i class="fas fa-envelope fa-2x"></i>
+                </a></li>
+            </ul>
+        </div>
     </header>
-
-    <div class="contact-list">
-        <ul>
-            <li><a href="/feed.xml" title="Subscribe to my RSS feed">
-                <i class="fas fa-rss fa-2x"></i>
-            </a></li>
-            <li><a href="https://github.com/hleb-albau" title="Follow me on github">
-                <i class="fab fa-github fa-2x"></i>
-            </a></li>
-            <li><a href="https://hub.docker.com/u/hlebalbau/" title="Run my containers">
-                <i class="fab fa-docker fa-2x"></i>
-            </a></li>
-            <li><a href="https://stackoverflow.com/users/2198161/hleb-albau" title="My StackOverflow profile">
-                <i class="fab fa-stack-overflow fa-2x"></i>
-            </a></li>
-            <li><a href="https://twitter.com/hleb_albau" title="Tweet me">
-                <i class="fab fa-twitter fa-2x"></i>
-            </a></li>
-            <li><a href="https://t.me/hleb_albau" title="Chat me">
-                <i class="fab fa-telegram-plane fa-2x"></i>
-            </a></li>
-            <li><a href="mailto:hleb.albau@gmail.com" title="Email me">
-                <i class="fas fa-envelope fa-2x"></i>
-            </a></li>
-        </ul>
-    </div>
 
     {{ content }}
 </div>
