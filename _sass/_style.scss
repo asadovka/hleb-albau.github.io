@@ -87,7 +87,7 @@ blockquote {
   background: transparent;
   color: $text-color;
   @include media-query($on-mobile) {
-    margin: 1em 0 0.5em 0;
+    margin: 1em 0 0em 0;
   }
 }
 
