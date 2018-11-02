@@ -72,8 +72,6 @@
     {{ content }}
 </div>
 
-<script id="dsq-count-scr" src="//http-hleb-albau-com.disqus.com/count.js" async></script>
-
 <script>
     var tipButton = document.querySelector('.tip-button');
     tipButton.addEventListener('click', function () {
@@ -89,7 +87,7 @@
             from: user_address,
             value: web3.toWei('0.00', 'ether')
         }, function (err, transactionHash) {
-            if (err) return alert('Thanks for trying out!');
+            if (err) return alert('Error occurs ;( Thanks for trying out!');
         })
     })
 </script>
