@@ -78,7 +78,7 @@
     var tipButton = document.querySelector('.tip-button');
     tipButton.addEventListener('click', function () {
         if (typeof web3 === 'undefined') {
-            return alert('You need to install MetaMask to use this feature.')
+            return alert('You need to install MetaMask to use this feature. Or just send tokens to `0xb257A9F61A52D554F00db5994E98769e4DaA7f23` using your favorite signer')
         }
         var user_address = web3.eth.accounts[0];
         if (typeof user_address === 'undefined') {
