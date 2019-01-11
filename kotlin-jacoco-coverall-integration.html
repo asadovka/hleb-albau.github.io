@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Gradle + Kotlin JUnit5 + Jacoco + Coverall.io Integration</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.css">
+    <link rel="stylesheet" href="/css/syntax.css">
+
+
+    <link rel="icon"
+          href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4jWNYem35f0owwzAygIGBAVUCCx+GSTYArxxVDUDHRMkNLi9QZMDAJ6ShawAAL/7WedGlj7QAAAAASUVORK5CYII="
+          type="image/png">
+
+    
+    <meta name="article:published_time" content="2018-06-14 00:00:00 +0000">
+    
+    <meta name="keywords" itemprop="keywords"
+          content="software, programming, blog, hleb albau, web, web3, chain, blockchain, p2p, crypto code coverage, java, kotlin, coverall, coverall.io, jacoco, gradle, junit, junit5, junit-jupiter, multiproject"/>
+    <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Gradle + Kotlin JUnit5 + Jacoco + Coverall.io Integration | Hleb Albau</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Gradle + Kotlin JUnit5 + Jacoco + Coverall.io Integration" />
+<meta name="author" content="Hleb Albau" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hleb Albau Blog About Software Engineering World" />
+<meta property="og:description" content="Hleb Albau Blog About Software Engineering World" />
+<link rel="canonical" href="http://hleb-albau.com/kotlin-jacoco-coverall-integration" />
+<meta property="og:url" content="http://hleb-albau.com/kotlin-jacoco-coverall-integration" />
+<meta property="og:site_name" content="Hleb Albau" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-06-14T00:00:00+00:00" />
+<meta name="google-site-verification" content="Ub8E4qroihmivg8yC8RPHxoDnJNLvKtub6rz0rFln7Q" />
+<script type="application/ld+json">
+{"headline":"Gradle + Kotlin JUnit5 + Jacoco + Coverall.io Integration","dateModified":"2018-06-14T00:00:00+00:00","datePublished":"2018-06-14T00:00:00+00:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://hleb-albau.com/kotlin-jacoco-coverall-integration"},"url":"http://hleb-albau.com/kotlin-jacoco-coverall-integration","author":{"@type":"Person","name":"Hleb Albau"},"description":"Hleb Albau Blog About Software Engineering World","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+
+<div class="content">
+
+    <header>
+        <a href="/">
+            <div class="site-title">Hleb Albau</div>
+        </a>
+        <div class="contact-list">
+            <ul>
+
+                <li><a href="https://blockchair.com/bitcoin/address/1N55PBaxpgpq9dD93rVymigAWAwSz9iFMN"
+                       title="Support me">
+                    <i class="fab fa-bitcoin fa-2x"></i>
+                </a></li>
+                <li class="tip-button"><a href="/" onclick="return false"
+                                          title="Support me using MetaMask">
+                    <i class="fab fa-ethereum fa-2x"></i>
+                </a></li>
+
+                <li><a href="/feed.xml" title="Subscribe to my RSS feed">
+                    <i class="fas fa-rss fa-2x"></i>
+                </a></li>
+                <li><a href="https://github.com/hleb-albau" title="Follow me on github">
+                    <i class="fab fa-github fa-2x"></i>
+                </a></li>
+                <li><a href="https://hub.docker.com/u/hlebalbau/" title="Run my containers">
+                    <i class="fab fa-docker fa-2x"></i>
+                </a></li>
+                <li><a href="https://stackoverflow.com/users/2198161/hleb-albau" title="My StackOverflow profile">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a></li>
+                <li><a href="https://twitter.com/hleb_albau" title="Tweet me">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a></li>
+                <li><a href="https://t.me/hleb_albau" title="Chat me">
+                    <i class="fab fa-telegram-plane fa-2x"></i>
+                </a></li>
+                <li><a href="mailto:hleb.albau@gmail.com" title="Email me">
+                    <i class="fas fa-envelope fa-2x"></i>
+                </a></li>
+
+            </ul>
+        </div>
+    </header>
+
+    <div class="post-title">
+    <div class="title">
+        <h1>Gradle + Kotlin JUnit5 + Jacoco + Coverall.io Integration</h1>
+        
+        <span>
+            <time datetime="">
+                   June 14, 2018
+            </time>
+        </span>
+        
+    </div>
+</div>
+
+
+<p>Testing is very powerful technique used in software development for years. To check all conditions/branches/lines is 
+covered via automatic tests engineers use various test coverage utils/libs. Today I want to show how to enable great
+service <strong>Coverall.io</strong> to track test coverage for your <strong>Kotlin</strong> + <strong>Gradle</strong> opensource project.</p>
+
+<h2 id="regular-gradle-stuff">Regular gradle stuff</h2>
+<p>Starting regular gradle stuff with buildscript, repositories and wrapper task:</p>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">repositories</span> <span class="o">{</span>
+    <span class="n">jcenter</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="k">buildscript</span> <span class="o">{</span>
+
+    <span class="k">repositories</span> <span class="o">{</span>
+        <span class="n">jcenter</span><span class="o">()</span>
+    <span class="o">}</span>
+    
+    <span class="k">dependencies</span> <span class="o">{</span>
+        <span class="n">classpath</span><span class="o">(</span><span class="s2">"org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.50"</span><span class="o">)</span>
+        <span class="n">classpath</span><span class="o">(</span><span class="s2">"org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">task</span> <span class="nf">wrapper</span><span class="o">(</span><span class="nl">type:</span> <span class="n">Wrapper</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">gradleVersion</span> <span class="o">=</span> <span class="s1">'4.8'</span>
+    <span class="n">distributionType</span> <span class="o">=</span> <span class="n">Wrapper</span><span class="o">.</span><span class="na">DistributionType</span><span class="o">.</span><span class="na">ALL</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="jacoco">Jacoco</h2>
+
+<p>To collect coverage metrics we will use <a href="https://www.eclemma.org/jacoco/">JaCoCo tool</a>. Jacoco has two tasks. The first
+used to generate file containing processing results with internal <strong>.exec</strong> format. Next one, <strong>JacocoReport</strong> 
+library task converts <strong>.exec</strong> file to various <em>view</em> representations (xml, csv, html and etc). Suddenly, Jacoco by
+default calculate coverage for each module separately. To calculate overall project test coverage we should:</p>
+
+<ul>
+  <li>Generate <strong>.exec</strong> file for each individual module</li>
+  <li>Merge <strong>.exec</strong> files from all submodules into single file (We will create <strong>jacocoMergeSubprojectResultsIntoRootOne</strong> task)</li>
+  <li>Using merged <strong>.exec</strong> file generate required report views (We will create <strong>jacocoRootReport</strong> task)</li>
+</ul>
+
+<p>Let’s start by applying Jacoco plugin for all projects.</p>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">allprojects</span> <span class="o">{</span>
+
+    <span class="n">apply</span> <span class="nl">plugin:</span> <span class="s2">"jacoco"</span>
+
+    <span class="n">jacoco</span> <span class="o">{</span>
+        <span class="n">toolVersion</span> <span class="o">=</span> <span class="s2">"0.8.2"</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Then, register Jacoco in subprojects JUnit5 test scope to generate <strong>$buildDir/jacoco/moduleTestsCoverage.exec</strong> files.</p>
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subprojects</span> <span class="o">{</span>
+
+    <span class="n">apply</span> <span class="nl">plugin:</span> <span class="s2">"kotlin"</span>
+    
+    <span class="k">dependencies</span> <span class="o">{</span>
+        <span class="n">compile</span><span class="o">(</span><span class="s2">"org.junit.jupiter:junit-jupiter-api:5.2.0"</span><span class="o">)</span>
+        <span class="n">compile</span><span class="o">(</span><span class="s2">"org.junit.jupiter:junit-jupiter-engine:5.2.0"</span><span class="o">)</span>
+    <span class="o">}</span>
+    
+    <span class="n">test</span> <span class="o">{</span>
+        <span class="n">useJUnitPlatform</span><span class="o">()</span>
+        <span class="n">jacoco</span> <span class="o">{</span>
+            <span class="n">append</span> <span class="o">=</span> <span class="kc">false</span>
+            <span class="n">destinationFile</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s2">"$buildDir/jacoco/moduleTestsCoverage.exec"</span><span class="o">)</span>
+            <span class="n">includeNoLocationClasses</span> <span class="o">=</span> <span class="kc">true</span>
+            <span class="n">excludes</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'jdk.internal.*'</span><span class="o">]</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>And finally, define two previously mentioned tasks:</p>
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">def</span> <span class="n">allTestsCoverageFile</span> <span class="o">=</span> <span class="s2">"$buildDir/jacoco/rootTestsCoverage.exec"</span>
+
+<span class="n">task</span> <span class="nf">jacocoMergeSubprojectResultsIntoRootOne</span><span class="o">(</span><span class="nl">type:</span> <span class="n">JacocoMerge</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">destinationFile</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="n">allTestsCoverageFile</span><span class="o">)</span>
+    <span class="n">executionData</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="na">fileTree</span><span class="o">(</span><span class="nl">dir:</span> <span class="s1">'.'</span><span class="o">,</span> <span class="nl">include:</span> <span class="s1">'**/build/jacoco/moduleTestsCoverage.exec'</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">task</span> <span class="nf">jacocoMerge</span><span class="o">(</span><span class="nl">dependsOn:</span> <span class="o">[</span><span class="s1">'jacocoMergeSubprojectResultsIntoRootOne'</span><span class="o">])</span>
+
+<span class="n">task</span> <span class="nf">jacocoRootReport</span><span class="o">(</span><span class="nl">type:</span> <span class="n">JacocoReport</span><span class="o">,</span> <span class="nl">dependsOn:</span> <span class="s2">"jacocoMerge"</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">reports</span> <span class="o">{</span>
+        <span class="n">xml</span><span class="o">.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="n">html</span><span class="o">.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="n">xml</span><span class="o">.</span><span class="na">destination</span> <span class="nf">file</span><span class="o">(</span><span class="s2">"${buildDir}/reports/jacoco/test/jacocoTestReport.xml"</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">additionalSourceDirs</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="k">subprojects</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">allSource</span><span class="o">.</span><span class="na">srcDirs</span><span class="o">)</span>
+    <span class="n">sourceDirectories</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="k">subprojects</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">allSource</span><span class="o">.</span><span class="na">srcDirs</span><span class="o">)</span>
+    <span class="n">classDirectories</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="k">subprojects</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">output</span><span class="o">)</span>
+    <span class="n">executionData</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="n">allTestCoverageFile</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="coverallio">Coverall.io</h2>
+
+<p><a href="https://coveralls.io/">Coverall.io</a> is a web service to help you track your code coverage over time, and ensure that 
+all your new code is fully covered. For example, see <a href="https://coveralls.io/github/trautonen/coveralls-maven-plugin">coverall maven plugin project</a>.
+It’s free for open source projects so get started today! To enable it for our project, we need to add only few lines:</p>
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">'com.github.kt3k.coveralls'</span>
+
+<span class="n">coveralls</span> <span class="o">{</span>
+    <span class="n">sourceDirs</span> <span class="o">=</span> <span class="k">subprojects</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">allSource</span><span class="o">.</span><span class="na">srcDirs</span><span class="o">.</span><span class="na">flatten</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">tasks</span><span class="o">.</span><span class="na">coveralls</span> <span class="o">{</span>
+    <span class="n">dependsOn</span><span class="o">(</span><span class="n">jacocoRootReport</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Note: By default Coverall.io gradle plugin expected Jacoco test xml report located at
+<strong>projectDir/reports/jacoco/test/jacocoTestReport.xml</strong> path. When, we defined <strong>jacocoRootReport</strong> task, we specified 
+<strong>xml.destination</strong> report property. Also, to be able to view coverage line be line on raw source files, we should 
+provide all subprojects sources.</p>
+
+<h2 id="final-root-buildgradle-file">Final root build.gradle file:</h2>
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">repositories</span> <span class="o">{</span>
+    <span class="n">jcenter</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="k">buildscript</span> <span class="o">{</span>
+
+    <span class="k">repositories</span> <span class="o">{</span>
+        <span class="n">jcenter</span><span class="o">()</span>
+    <span class="o">}</span>
+    
+    <span class="k">dependencies</span> <span class="o">{</span>
+        <span class="n">classpath</span><span class="o">(</span><span class="s2">"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"</span><span class="o">)</span>
+        <span class="n">classpath</span><span class="o">(</span><span class="s2">"org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">allprojects</span> <span class="o">{</span>
+
+    <span class="n">apply</span> <span class="nl">plugin:</span> <span class="s2">"jacoco"</span>
+
+    <span class="n">jacoco</span> <span class="o">{</span>
+        <span class="n">toolVersion</span> <span class="o">=</span> <span class="s2">"0.8.2"</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">subprojects</span> <span class="o">{</span>
+
+    <span class="n">apply</span> <span class="nl">plugin:</span> <span class="s2">"kotlin"</span>
+    
+    <span class="n">test</span> <span class="o">{</span>
+        <span class="n">useJUnitPlatform</span><span class="o">()</span>
+        <span class="n">jacoco</span> <span class="o">{</span>
+            <span class="n">append</span> <span class="o">=</span> <span class="kc">false</span>
+            <span class="n">destinationFile</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s2">"$buildDir/jacoco/moduleTestsCoverage.exec"</span><span class="o">)</span>
+            <span class="n">includeNoLocationClasses</span> <span class="o">=</span> <span class="kc">true</span>
+            <span class="n">excludes</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'jdk.internal.*'</span><span class="o">]</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">'com.github.kt3k.coveralls'</span>
+
+<span class="kt">def</span> <span class="n">allTestsCoverageFile</span> <span class="o">=</span> <span class="s2">"$buildDir/jacoco/rootTestsCoverage.exec"</span>
+
+<span class="n">task</span> <span class="nf">jacocoMergeSubprojectResultsIntoRootOne</span><span class="o">(</span><span class="nl">type:</span> <span class="n">JacocoMerge</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">destinationFile</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="n">allTestsCoverageFile</span><span class="o">)</span>
+    <span class="n">executionData</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="na">fileTree</span><span class="o">(</span><span class="nl">dir:</span> <span class="s1">'.'</span><span class="o">,</span> <span class="nl">include:</span> <span class="s1">'**/build/jacoco/moduleTestsCoverage.exec'</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">task</span> <span class="nf">jacocoMerge</span><span class="o">(</span><span class="nl">dependsOn:</span> <span class="o">[</span><span class="s1">'jacocoMergeSubprojectResultsIntoRootOne'</span><span class="o">])</span>
+
+<span class="n">task</span> <span class="nf">jacocoRootReport</span><span class="o">(</span><span class="nl">type:</span> <span class="n">JacocoReport</span><span class="o">,</span> <span class="nl">dependsOn:</span> <span class="s2">"jacocoMerge"</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">reports</span> <span class="o">{</span>
+        <span class="n">xml</span><span class="o">.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="n">html</span><span class="o">.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="n">xml</span><span class="o">.</span><span class="na">destination</span> <span class="nf">file</span><span class="o">(</span><span class="s2">"${buildDir}/reports/jacoco/test/jacocoTestReport.xml"</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">additionalSourceDirs</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="k">subprojects</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">allSource</span><span class="o">.</span><span class="na">srcDirs</span><span class="o">)</span>
+    <span class="n">sourceDirectories</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="k">subprojects</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">allSource</span><span class="o">.</span><span class="na">srcDirs</span><span class="o">)</span>
+    <span class="n">classDirectories</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="k">subprojects</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">output</span><span class="o">)</span>
+    <span class="n">executionData</span> <span class="o">=</span> <span class="n">files</span><span class="o">(</span><span class="n">allTestCoverageFile</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">coveralls</span> <span class="o">{</span>
+    <span class="n">sourceDirs</span> <span class="o">=</span> <span class="k">subprojects</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">allSource</span><span class="o">.</span><span class="na">srcDirs</span><span class="o">.</span><span class="na">flatten</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">tasks</span><span class="o">.</span><span class="na">coveralls</span> <span class="o">{</span>
+    <span class="n">dependsOn</span><span class="o">(</span><span class="n">jacocoRootReport</span><span class="o">)</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h2 id="ci">CI</h2>
+<p>The Coveralls service is CI-agnostic. Just add <strong>COVERALLS_REPO_TOKEN</strong> env variable and run
+gradle coverall task:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew clean build coveralls
+</code></pre></div></div>
+
+
+</div>
+
+<script>
+    var tipButton = document.querySelector('.tip-button');
+    tipButton.addEventListener('click', function () {
+        if (typeof web3 === 'undefined') {
+            return alert('You need to install MetaMask to use this feature. Or just send tokens to `0xb257A9F61A52D554F00db5994E98769e4DaA7f23` using your favorite signer')
+        }
+        var user_address = web3.eth.accounts[0];
+        if (typeof user_address === 'undefined') {
+            return alert('You need to log in MetaMask to use this feature.')
+        }
+        web3.eth.sendTransaction({
+            to: "0xb257A9F61A52D554F00db5994E98769e4DaA7f23",
+            from: user_address,
+            value: web3.toWei('0.00', 'ether')
+        }, function (err, transactionHash) {
+            if (err) return alert('Error occurs ;( Thanks for trying out!');
+        })
+    })
+</script>
+</body>
+</html>

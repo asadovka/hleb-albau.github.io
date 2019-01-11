@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Hello World Post</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.css">
+    <link rel="stylesheet" href="/css/syntax.css">
+
+
+    <link rel="icon"
+          href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4jWNYem35f0owwzAygIGBAVUCCx+GSTYArxxVDUDHRMkNLi9QZMDAJ6ShawAAL/7WedGlj7QAAAAASUVORK5CYII="
+          type="image/png">
+
+    
+    <meta name="article:published_time" content="2018-01-23 00:00:00 +0000">
+    
+    <meta name="keywords" itemprop="keywords"
+          content="software, programming, blog, hleb albau, web, web3, chain, blockchain, p2p, crypto hello world"/>
+    <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Hello World Post | Hleb Albau</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Hello World Post" />
+<meta name="author" content="Hleb Albau" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hello World!!!" />
+<meta property="og:description" content="Hello World!!!" />
+<link rel="canonical" href="http://hleb-albau.com/hello-world" />
+<meta property="og:url" content="http://hleb-albau.com/hello-world" />
+<meta property="og:site_name" content="Hleb Albau" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-23T00:00:00+00:00" />
+<meta name="google-site-verification" content="Ub8E4qroihmivg8yC8RPHxoDnJNLvKtub6rz0rFln7Q" />
+<script type="application/ld+json">
+{"headline":"Hello World Post","dateModified":"2018-01-23T00:00:00+00:00","datePublished":"2018-01-23T00:00:00+00:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://hleb-albau.com/hello-world"},"url":"http://hleb-albau.com/hello-world","author":{"@type":"Person","name":"Hleb Albau"},"description":"Hello World!!!","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+
+<div class="content">
+
+    <header>
+        <a href="/">
+            <div class="site-title">Hleb Albau</div>
+        </a>
+        <div class="contact-list">
+            <ul>
+
+                <li><a href="https://blockchair.com/bitcoin/address/1N55PBaxpgpq9dD93rVymigAWAwSz9iFMN"
+                       title="Support me">
+                    <i class="fab fa-bitcoin fa-2x"></i>
+                </a></li>
+                <li class="tip-button"><a href="/" onclick="return false"
+                                          title="Support me using MetaMask">
+                    <i class="fab fa-ethereum fa-2x"></i>
+                </a></li>
+
+                <li><a href="/feed.xml" title="Subscribe to my RSS feed">
+                    <i class="fas fa-rss fa-2x"></i>
+                </a></li>
+                <li><a href="https://github.com/hleb-albau" title="Follow me on github">
+                    <i class="fab fa-github fa-2x"></i>
+                </a></li>
+                <li><a href="https://hub.docker.com/u/hlebalbau/" title="Run my containers">
+                    <i class="fab fa-docker fa-2x"></i>
+                </a></li>
+                <li><a href="https://stackoverflow.com/users/2198161/hleb-albau" title="My StackOverflow profile">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a></li>
+                <li><a href="https://twitter.com/hleb_albau" title="Tweet me">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a></li>
+                <li><a href="https://t.me/hleb_albau" title="Chat me">
+                    <i class="fab fa-telegram-plane fa-2x"></i>
+                </a></li>
+                <li><a href="mailto:hleb.albau@gmail.com" title="Email me">
+                    <i class="fas fa-envelope fa-2x"></i>
+                </a></li>
+
+            </ul>
+        </div>
+    </header>
+
+    <div class="post-title">
+    <div class="title">
+        <h1>Hello World Post</h1>
+        
+        <span>
+            <time datetime="">
+                   January 23, 2018
+            </time>
+        </span>
+        
+    </div>
+</div>
+
+
+<p>Hello World!!!</p>
+
+</div>
+
+<script>
+    var tipButton = document.querySelector('.tip-button');
+    tipButton.addEventListener('click', function () {
+        if (typeof web3 === 'undefined') {
+            return alert('You need to install MetaMask to use this feature. Or just send tokens to `0xb257A9F61A52D554F00db5994E98769e4DaA7f23` using your favorite signer')
+        }
+        var user_address = web3.eth.accounts[0];
+        if (typeof user_address === 'undefined') {
+            return alert('You need to log in MetaMask to use this feature.')
+        }
+        web3.eth.sendTransaction({
+            to: "0xb257A9F61A52D554F00db5994E98769e4DaA7f23",
+            from: user_address,
+            value: web3.toWei('0.00', 'ether')
+        }, function (err, transactionHash) {
+            if (err) return alert('Error occurs ;( Thanks for trying out!');
+        })
+    })
+</script>
+</body>
+</html>

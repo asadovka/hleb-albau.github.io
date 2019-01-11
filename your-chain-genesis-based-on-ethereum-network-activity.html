@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Your chain genesis based on Ethereum network activity</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.css">
+    <link rel="stylesheet" href="/css/syntax.css">
+
+
+    <link rel="icon"
+          href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4jWNYem35f0owwzAygIGBAVUCCx+GSTYArxxVDUDHRMkNLi9QZMDAJ6ShawAAL/7WedGlj7QAAAAASUVORK5CYII="
+          type="image/png">
+
+    
+    <meta name="article:published_time" content="2019-01-11 00:00:00 +0000">
+    
+    <meta name="keywords" itemprop="keywords"
+          content="software, programming, blog, hleb albau, web, web3, chain, blockchain, p2p, crypto drop, airdrop, eth, ethereum, genesis, chain, blockchain, crypto"/>
+    <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Your chain genesis based on Ethereum network activity | Hleb Albau</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Your chain genesis based on Ethereum network activity" />
+<meta name="author" content="Hleb Albau" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hleb Albau Blog About Software Engineering World" />
+<meta property="og:description" content="Hleb Albau Blog About Software Engineering World" />
+<link rel="canonical" href="http://hleb-albau.com/your-chain-genesis-based-on-ethereum-network-activity" />
+<meta property="og:url" content="http://hleb-albau.com/your-chain-genesis-based-on-ethereum-network-activity" />
+<meta property="og:site_name" content="Hleb Albau" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-11T00:00:00+00:00" />
+<meta name="google-site-verification" content="Ub8E4qroihmivg8yC8RPHxoDnJNLvKtub6rz0rFln7Q" />
+<script type="application/ld+json">
+{"headline":"Your chain genesis based on Ethereum network activity","dateModified":"2019-01-11T00:00:00+00:00","datePublished":"2019-01-11T00:00:00+00:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://hleb-albau.com/your-chain-genesis-based-on-ethereum-network-activity"},"url":"http://hleb-albau.com/your-chain-genesis-based-on-ethereum-network-activity","author":{"@type":"Person","name":"Hleb Albau"},"description":"Hleb Albau Blog About Software Engineering World","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+
+<div class="content">
+
+    <header>
+        <a href="/">
+            <div class="site-title">Hleb Albau</div>
+        </a>
+        <div class="contact-list">
+            <ul>
+
+                <li><a href="https://blockchair.com/bitcoin/address/1N55PBaxpgpq9dD93rVymigAWAwSz9iFMN"
+                       title="Support me">
+                    <i class="fab fa-bitcoin fa-2x"></i>
+                </a></li>
+                <li class="tip-button"><a href="/" onclick="return false"
+                                          title="Support me using MetaMask">
+                    <i class="fab fa-ethereum fa-2x"></i>
+                </a></li>
+
+                <li><a href="/feed.xml" title="Subscribe to my RSS feed">
+                    <i class="fas fa-rss fa-2x"></i>
+                </a></li>
+                <li><a href="https://github.com/hleb-albau" title="Follow me on github">
+                    <i class="fab fa-github fa-2x"></i>
+                </a></li>
+                <li><a href="https://hub.docker.com/u/hlebalbau/" title="Run my containers">
+                    <i class="fab fa-docker fa-2x"></i>
+                </a></li>
+                <li><a href="https://stackoverflow.com/users/2198161/hleb-albau" title="My StackOverflow profile">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a></li>
+                <li><a href="https://twitter.com/hleb_albau" title="Tweet me">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a></li>
+                <li><a href="https://t.me/hleb_albau" title="Chat me">
+                    <i class="fab fa-telegram-plane fa-2x"></i>
+                </a></li>
+                <li><a href="mailto:hleb.albau@gmail.com" title="Email me">
+                    <i class="fas fa-envelope fa-2x"></i>
+                </a></li>
+
+            </ul>
+        </div>
+    </header>
+
+    <div class="post-title">
+    <div class="title">
+        <h1>Your chain genesis based on Ethereum network activity</h1>
+        
+        <span>
+            <time datetime="">
+                   January 11, 2019
+            </time>
+        </span>
+        
+    </div>
+</div>
+
+
+<p>Recently, I worked on launching our chain <a href="https://github.com/cybercongress/cyberd"><strong>cyberd</strong></a> 
+public testnet.
+To attract active crypto users we decided to create genesis,
+where 70% of genesis tokens will be dropped to Ethereum users. 
+But how to select those users? Yeah, it a bit complicated question and worthy of a separate post. 
+All we need to know for now, that we can select them from other chain based on their activity. 
+But … how to transfer them tokens safely?</p>
+
+<h2 id="when-crypto-helps">When crypto helps</h2>
+
+<p>Most of the chains based on same crypto principle. A user generates private\public keys pair. 
+Keeping secret and signing transaction using a private key, 
+announcing public key to others, thus they can verify transaction signer is you. 
+Here we come to the interesting part: 
+you can use a same private\public pair for different chains 
+if they use a same signature verification mechanism. 
+Knowing that we can assign tokens(based on some calculated rank) to <strong>public</strong> keys in our genesis chain, 
+so that only users holding corresponding private keys can <strong>unlock</strong> assets.
+Seems easy, but …</p>
+
+<h2 id="address-is-not-public-key">Address is not public key</h2>
+
+<p>A normal user doesn’t see any private or public keys. 
+Usually, key management is hidden by crypto wallets. 
+Also, we are not working with public keys directly. 
+Instead, chains generate more short and readable <strong>addresses</strong>, derived from public key.
+Mostly each chain has own address derivation logic, 
+thus different chains for the same public key will generate different addresses.
+For example, <strong>Ethereum</strong> use next algorithm to obtain your account address:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Start with the public key (64 bytes)
+2. Take the Keccak-256 hash of the public key. You should now have a string that is 32 bytes.
+3. Take the last 20 bytes of this public key (Keccak-256). These 20 bytes(40 characters) are the address. 
+ When prefixed with 0x it becomes 42 characters long.
+</code></pre></div></div>
+
+<p>One point I forgot to mention is that public key can be restored from a private one. Now we have next triple: private key -&gt; public key -&gt; address. Our drop scheme is transforming to:</p>
+
+<ol>
+  <li>Calculate a rank for initial chain addresses. One of the best candidates currently is Ethereum.</li>
+  <li>Parse initial chain and extract public keys for addresses from (1).</li>
+  <li>Derive from collected public keys your chain addresses.</li>
+  <li>Based on (1) drop assets to derived addresses in your genesis.</li>
+</ol>
+
+<p>As I said earlier, the first part challenging itself. 
+There are a lot of goals your drop can aim. 
+According to drop intention you want to select a different group of user from an initial chain. 
+It can be wales, or centralized exchange users or some dapp active participators.</p>
+
+<p>The third and fourth parts are just regular coding routine. 
+But the task of collecting public keys a bit tricky.</p>
+
+<h2 id="collecting-public-keys">Collecting public keys</h2>
+
+<p>When you create a first outgoing transaction, you also attach your public key. 
+Usually, it posted in compressed format as curve points.
+So, to collect public keys you have to download all first accounts outgoing transactions, 
+restore public key to uncompressed format if necessary and put it somewhere for later access.
+Seems not complicated, but here we also should deal with a network, disk, or system errors. 
+Also synced full node of an initial chain is required.</p>
+
+<p>In our chain we use Ethereum is the initial chain. 
+I found only one GitHub repository implementing required logic, but with some specific features.
+So I create <a href="https://github.com/hleb-albau/ethereum-pubkey-collector">simple CLI app</a> 
+to collect Ethereum public keys. 
+Contributions are welcome!
+Currently, it takes about 1 day to parse whole Ethereum network. 
+This project, besides collecting public keys, supports other commands such as create CSV file or serve HTTP endpoint.</p>
+
+<h2 id="limitations">Limitations</h2>
+
+<p>There are few limitations with the current drop approach.
+The first is about security. Users should trust your chain wallets to import their private keys.
+I strongly suggest using different keys for different chains. 
+The best tactic here is to install wallet withing offline computer, 
+just sign transaction, copy transaction bytes using a flash driver and delete wallet. 
+Then a signed transaction can be sent via any chain provider securely.</p>
+
+<p>The second limitation: only addresses with outgoing transactions can be used for a drop. 
+No out transaction - no public key. 
+It is almost impossible to reveal your private key using your public key, 
+but some big holders prefer to use cold wallets with only incoming transactions for additional security.</p>
+
+<p>Despite described limitations,
+generating dropping tokens based on others chains activity is very powered tool.
+Used wisely it can boost your projects from start. Buidl!</p>
+
+</div>
+
+<script>
+    var tipButton = document.querySelector('.tip-button');
+    tipButton.addEventListener('click', function () {
+        if (typeof web3 === 'undefined') {
+            return alert('You need to install MetaMask to use this feature. Or just send tokens to `0xb257A9F61A52D554F00db5994E98769e4DaA7f23` using your favorite signer')
+        }
+        var user_address = web3.eth.accounts[0];
+        if (typeof user_address === 'undefined') {
+            return alert('You need to log in MetaMask to use this feature.')
+        }
+        web3.eth.sendTransaction({
+            to: "0xb257A9F61A52D554F00db5994E98769e4DaA7f23",
+            from: user_address,
+            value: web3.toWei('0.00', 'ether')
+        }, function (err, transactionHash) {
+            if (err) return alert('Error occurs ;( Thanks for trying out!');
+        })
+    })
+</script>
+</body>
+</html>

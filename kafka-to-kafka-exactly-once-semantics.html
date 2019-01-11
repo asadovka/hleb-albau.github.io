@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Kafka To Kafka Exactly Once Semantics</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.css">
+    <link rel="stylesheet" href="/css/syntax.css">
+
+
+    <link rel="icon"
+          href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4jWNYem35f0owwzAygIGBAVUCCx+GSTYArxxVDUDHRMkNLi9QZMDAJ6ShawAAL/7WedGlj7QAAAAASUVORK5CYII="
+          type="image/png">
+
+    
+    <meta name="article:published_time" content="2018-01-27 00:00:00 +0000">
+    
+    <meta name="keywords" itemprop="keywords"
+          content="software, programming, blog, hleb albau, web, web3, chain, blockchain, p2p, crypto kafka, apache kafka, stream processing, exactly once"/>
+    <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Kafka To Kafka Exactly Once Semantics | Hleb Albau</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Kafka To Kafka Exactly Once Semantics" />
+<meta name="author" content="Hleb Albau" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hleb Albau Blog About Software Engineering World" />
+<meta property="og:description" content="Hleb Albau Blog About Software Engineering World" />
+<link rel="canonical" href="http://hleb-albau.com/kafka-to-kafka-exactly-once-semantics" />
+<meta property="og:url" content="http://hleb-albau.com/kafka-to-kafka-exactly-once-semantics" />
+<meta property="og:site_name" content="Hleb Albau" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-01-27T00:00:00+00:00" />
+<meta name="google-site-verification" content="Ub8E4qroihmivg8yC8RPHxoDnJNLvKtub6rz0rFln7Q" />
+<script type="application/ld+json">
+{"headline":"Kafka To Kafka Exactly Once Semantics","dateModified":"2018-01-27T00:00:00+00:00","datePublished":"2018-01-27T00:00:00+00:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://hleb-albau.com/kafka-to-kafka-exactly-once-semantics"},"url":"http://hleb-albau.com/kafka-to-kafka-exactly-once-semantics","author":{"@type":"Person","name":"Hleb Albau"},"description":"Hleb Albau Blog About Software Engineering World","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+
+<div class="content">
+
+    <header>
+        <a href="/">
+            <div class="site-title">Hleb Albau</div>
+        </a>
+        <div class="contact-list">
+            <ul>
+
+                <li><a href="https://blockchair.com/bitcoin/address/1N55PBaxpgpq9dD93rVymigAWAwSz9iFMN"
+                       title="Support me">
+                    <i class="fab fa-bitcoin fa-2x"></i>
+                </a></li>
+                <li class="tip-button"><a href="/" onclick="return false"
+                                          title="Support me using MetaMask">
+                    <i class="fab fa-ethereum fa-2x"></i>
+                </a></li>
+
+                <li><a href="/feed.xml" title="Subscribe to my RSS feed">
+                    <i class="fas fa-rss fa-2x"></i>
+                </a></li>
+                <li><a href="https://github.com/hleb-albau" title="Follow me on github">
+                    <i class="fab fa-github fa-2x"></i>
+                </a></li>
+                <li><a href="https://hub.docker.com/u/hlebalbau/" title="Run my containers">
+                    <i class="fab fa-docker fa-2x"></i>
+                </a></li>
+                <li><a href="https://stackoverflow.com/users/2198161/hleb-albau" title="My StackOverflow profile">
+                    <i class="fab fa-stack-overflow fa-2x"></i>
+                </a></li>
+                <li><a href="https://twitter.com/hleb_albau" title="Tweet me">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a></li>
+                <li><a href="https://t.me/hleb_albau" title="Chat me">
+                    <i class="fab fa-telegram-plane fa-2x"></i>
+                </a></li>
+                <li><a href="mailto:hleb.albau@gmail.com" title="Email me">
+                    <i class="fas fa-envelope fa-2x"></i>
+                </a></li>
+
+            </ul>
+        </div>
+    </header>
+
+    <div class="post-title">
+    <div class="title">
+        <h1>Kafka To Kafka Exactly Once Semantics</h1>
+        
+        <span>
+            <time datetime="">
+                   January 27, 2018
+            </time>
+        </span>
+        
+    </div>
+</div>
+
+
+<blockquote>
+  <p>There are only two hard problems in distributed systems: 2. Exactly once delivery 1. Guaranteed order of messages 2.
+Exactly once delivery.</p>
+</blockquote>
+
+<h2 id="general-possible-streaming-semantics">General Possible Streaming Semantics</h2>
+
+<p>If only we lived in an ideal world… network and disk failures, human errors, and even simple bugs, never occur in
+  regular developer life. But… it’s only a dream. Depending on how you react on components fails, there are three
+  possible behaviour of your system:</p>
+
+<ol>
+  <li>
+    <p><strong>At most once semantics:</strong> Is a lower messaging guarantee. Your message will be produced/processed at most once.
+Your <em>consumer(subscriber)</em> pull a message, commit current offset, and then process it. There is a case, when during
+processing message, <em>consumer</em> fails, and after restart it will process next queue item. From the <em>producer</em> side, you can
+send async message to queue, which can be lost somewhere before storage, and commit current state.</p>
+  </li>
+  <li>
+    <p><strong>At least once semantics:</strong> As a in previous case, you <em>consumer(subscriber)</em> pull a message, but commit state only after
+processing message. There is case, when you already process message, but <em>consumer</em> fails, and queue offset is not
+committed. After restart, <em>consumer</em> will process previous message once again. Otherside, <em>producer</em> can send sync
+message with
+waiting for broker(storage) acknowledgement. <em>Broker</em> receives and stores the message, but right after
+that it fails. <em>Producer</em> after some configured timeout will retry to send message. That leads to the message being
+written N times.</p>
+  </li>
+  <li>
+    <p><strong>Exactly once semantics:</strong> Very strong guarantee. Each message will be produced/processed exactly once. All
+failures, will be handled accordingly. In general, exactly once is probably impossible! But…</p>
+  </li>
+</ol>
+
+<h2 id="what-does-it-mean-kafka-to-kafka">What does it mean “Kafka-to-Kafka”</h2>
+
+<p>But… for some cases, we can archive it. Kafka-to-Kafka one of them. So what does it mean “Kafka-To-Kafka”? Yeah, it’s
+very simple! You read a message from Kafka topic, process it, and than save result back to another Kafka topic.
+One important point here: during processing message, your service can query other services to obtain missing data,
+but save entities <strong>only</strong> back to Kafka.</p>
+
+<h2 id="example-scenario">Example scenario</h2>
+
+<p>Let’s consider some example scenario, to show Kafka-To-Kafka exactly once semantics.
+Suppose we have kafka topic called <em>“files-with-transactions”</em> containing urls. Our service should get next link, 
+download file, parse it into list of transactions, and store that list in topic <em>“transactions”</em>.</p>
+
+<h2 id="show-me-the-code">Show me the code</h2>
+
+<p>First of all we will define our consumers part. Let’s start from the general topics messages(records) processor.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//TopicsRecordsProcessor.kt</span>
+<span class="k">private</span> <span class="kd">val</span> <span class="py">log</span> <span class="p">=</span> <span class="n">LoggerFactory</span><span class="p">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">TopicsRecordsProcessor</span><span class="o">::</span><span class="k">class</span><span class="p">.</span><span class="n">java</span><span class="p">)</span><span class="o">!!</span>
+
+<span class="k">abstract</span> <span class="kd">class</span> <span class="nc">TopicsRecordsProcessor</span><span class="p">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">&gt;(</span><span class="k">private</span> <span class="kd">val</span> <span class="py">topic</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">abstract</span> <span class="k">protected</span> <span class="kd">val</span> <span class="py">consumer</span><span class="p">:</span> <span class="n">KafkaConsumer</span><span class="p">&lt;</span><span class="n">K</span><span class="p">,</span> <span class="n">V</span><span class="p">&gt;</span>
+    <span class="k">abstract</span> <span class="k">fun</span> <span class="nf">processRecord</span><span class="p">(</span><span class="nv">partition</span><span class="p">:</span> <span class="nc">TopicPartition</span><span class="p">,</span> <span class="nv">record</span><span class="p">:</span> <span class="nc">ConsumerRecord</span><span class="p">&lt;</span><span class="nc">K</span><span class="p">,</span> <span class="nc">V</span><span class="p">&gt;)</span>
+
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">closed</span> <span class="p">=</span> <span class="n">AtomicBoolean</span><span class="p">(</span><span class="k">false</span><span class="p">)</span>
+
+    <span class="k">fun</span> <span class="nf">startProcessing</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="n">consumer</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span><span class="n">topic</span><span class="p">))</span>
+            <span class="k">while</span> <span class="p">(!</span><span class="n">closed</span><span class="p">.</span><span class="k">get</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">readAndProcessRecords</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nv">e</span><span class="p">:</span> <span class="nc">Exception</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">log</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">"consumer record processing error"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nv">e</span><span class="p">:</span> <span class="nc">WakeupException</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Ignore exception if closing</span>
+            <span class="k">if</span> <span class="p">(!</span><span class="n">closed</span><span class="p">.</span><span class="k">get</span><span class="p">())</span> <span class="k">throw</span> <span class="n">e</span>
+        <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+            <span class="n">consumer</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">fun</span> <span class="nf">readAndProcessRecords</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="kd">val</span> <span class="py">records</span> <span class="p">=</span> <span class="n">consumer</span><span class="p">.</span><span class="n">poll</span><span class="p">(</span><span class="m">100</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">partition</span> <span class="k">in</span> <span class="n">records</span><span class="p">.</span><span class="n">partitions</span><span class="p">())</span> <span class="p">{</span>
+            <span class="kd">val</span> <span class="py">partitionRecords</span> <span class="p">=</span> <span class="n">records</span><span class="p">.</span><span class="n">records</span><span class="p">(</span><span class="n">partition</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">record</span> <span class="k">in</span> <span class="n">partitionRecords</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">processRecord</span><span class="p">(</span><span class="n">partition</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">open</span> <span class="k">fun</span> <span class="nf">stopProcessing</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">closed</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+        <span class="n">consumer</span><span class="p">.</span><span class="n">wakeup</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As you can see, we just wrap default kafka consumer. Next, we should setup consumer itself.</p>
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//TransactionFilesProcess.kt</span>
+<span class="k">private</span> <span class="kd">val</span> <span class="py">consumerGroup</span> <span class="p">=</span> <span class="s">"files-with-transactions-group-1"</span>
+
+<span class="k">private</span> <span class="kd">val</span> <span class="py">consumerProperties</span> <span class="p">=</span> <span class="n">Properties</span><span class="p">().</span><span class="n">apply</span> <span class="p">{</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">"bootstrap.servers"</span><span class="p">,</span><span class="s">"localhost"</span><span class="p">)</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">"group.id"</span><span class="p">,</span> <span class="n">consumerGroup</span><span class="p">)</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">"isolation.level"</span><span class="p">,</span> <span class="s">"read_committed"</span><span class="p">)</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">"enable.auto.commit"</span><span class="p">,</span> <span class="k">false</span><span class="p">)</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">"auto.offset.reset"</span><span class="p">,</span> <span class="s">"earliest"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Get attention to the two lines here:</p>
+<ol>
+  <li><code class="highlighter-rouge">put("isolation.level", "read_committed")</code> used to process only committed messages to kafka. We will talk about
+transaction a bit latter.</li>
+  <li><code class="highlighter-rouge">put("enable.auto.commit", false)</code> offset management will be done by our process.
+Same settings for kafka producer.</li>
+</ol>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//TransactionFilesProcess.kt</span>
+<span class="k">private</span> <span class="kd">val</span> <span class="py">producerProperties</span> <span class="p">=</span> <span class="n">Properties</span><span class="p">().</span><span class="n">apply</span> <span class="p">{</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">"bootstrap.servers"</span><span class="p">,</span> <span class="s">"localhost"</span><span class="p">)</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">"group.id"</span><span class="p">,</span> <span class="s">"transactions-group-1"</span><span class="p">)</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">"transactional.id"</span><span class="p">,</span> <span class="s">"transactions-group-1-transaction-id"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Be careful. If your service should scale at some point to N working nodes, than <strong>transactional.id</strong> option should be 
+unique for every node. Now we are ready to define <strong>TransactionFilesProcess.class</strong></p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//TransactionFilesProcess.kt</span>
+<span class="kd">class</span> <span class="nc">TransactionFilesProcess</span> <span class="p">:</span> <span class="n">TopicsRecordsProcess</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="p">&gt;(</span><span class="s">"files-with-transactions"</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">override</span> <span class="kd">val</span> <span class="py">consumer</span> <span class="p">=</span> <span class="n">KafkaConsumer</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="p">&gt;(</span>
+            <span class="n">consumerProperties</span><span class="p">,</span> <span class="n">JsonDeserializer</span><span class="p">(</span><span class="n">String</span><span class="o">::</span><span class="k">class</span><span class="p">.</span><span class="n">java</span><span class="p">),</span> <span class="n">JsonDeserializer</span><span class="p">(</span><span class="n">String</span><span class="o">::</span><span class="k">class</span><span class="p">.</span><span class="n">java</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">producer</span> <span class="p">=</span> <span class="n">KafkaProducer</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">&gt;(</span>
+            <span class="n">producerProperties</span><span class="p">,</span> <span class="n">JsonSerializer</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;(),</span> <span class="n">JsonSerializer</span><span class="p">&lt;</span><span class="n">Transaction</span><span class="p">&gt;()</span>
+    <span class="p">).</span><span class="n">apply</span> <span class="p">{</span> <span class="n">initTransactions</span><span class="p">()</span> <span class="p">}</span>
+
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">processRecord</span><span class="p">(</span><span class="nv">partition</span><span class="p">:</span> <span class="nc">TopicPartition</span><span class="p">,</span> <span class="nv">record</span><span class="p">:</span> <span class="nc">ConsumerRecord</span><span class="p">&lt;</span><span class="nc">String</span><span class="p">,</span> <span class="nc">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+
+        <span class="kd">val</span> <span class="py">fileUrl</span> <span class="p">=</span> <span class="n">record</span><span class="p">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="kd">val</span> <span class="py">transactions</span> <span class="p">=</span> <span class="n">downloadAndParseFile</span><span class="p">(</span><span class="n">fileUrl</span><span class="p">)</span>
+
+        <span class="kd">val</span> <span class="py">offset</span> <span class="p">=</span> <span class="n">mapOf</span><span class="p">(</span><span class="n">partition</span> <span class="n">to</span> <span class="n">OffsetAndMetadata</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="n">offset</span><span class="p">()</span> <span class="p">+</span> <span class="m">1</span><span class="p">))</span>
+        <span class="n">producer</span><span class="p">.</span><span class="n">beginTransaction</span><span class="p">()</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="n">transactions</span><span class="p">.</span><span class="n">foreach</span> <span class="p">{</span> <span class="n">transaction</span> <span class="p">-&gt;</span> <span class="n">producer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">ProducerRecord</span><span class="p">(</span><span class="n">fileUrl</span><span class="p">,</span> <span class="n">transaction</span><span class="p">))}</span>
+            <span class="n">producer</span><span class="p">.</span><span class="n">sendOffsetsToTransaction</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">consumerGroup</span><span class="p">)</span>
+            <span class="n">producer</span><span class="p">.</span><span class="n">commitTransaction</span><span class="p">()</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nv">e</span><span class="p">:</span> <span class="nc">Exception</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">producer</span><span class="p">.</span><span class="n">abortTransaction</span><span class="p">()</span>
+            <span class="n">stopProcessing</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">stopProcessing</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">.</span><span class="n">stopProcessing</span><span class="p">()</span>
+        <span class="n">producer</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Listing below is straightforward. We download one file by url, parse it into list of transactions. Create offset 
+object for latter committing consumer position. Kafka transactions are started by producers. To enable transaction 
+support, producer should call <code class="highlighter-rouge">initTransactions()</code> method. Transaction allows you to send records and commit 
+consumer offset atomically.</p>
+
+<p>The send is asynchronous and this method will return immediately once the record has been stored in the buffer of 
+records waiting to be sent. This allows sending many records in parallel without blocking to wait for the response 
+after each one. When used as part of a transaction, it is not necessary to define a callback or check the result of 
+the future in order to detect errors from <code class="highlighter-rouge">send()</code>. If any of the send calls failed with an irrecoverable error, the 
+final <code class="highlighter-rouge">commitTransaction()</code> call will fail and throw the exception from the last failed send. When this happens, your 
+application should call <code class="highlighter-rouge">abortTransaction()</code> to reset the state and try once again to process record. Also, previously
+we define consumer option <code class="highlighter-rouge">put("isolation.level", "read_committed")</code> to process only messages from committed 
+transactions, thus we avoid processing records N times (from failed and completed transactions).</p>
+
+<h2 id="final-words">Final words.</h2>
+
+<p>While it’s definitely easy to implement exactly-once semantic for kafka-to-kafka case, there are some caveats. You 
+should be totally sure, that incoming(consumer) topics will not contain duplicated items itself or process
+items idempotently(but it’s not possible for many cases, ex: transaction processing with updating address balances).</p>
+
+</div>
+
+<script>
+    var tipButton = document.querySelector('.tip-button');
+    tipButton.addEventListener('click', function () {
+        if (typeof web3 === 'undefined') {
+            return alert('You need to install MetaMask to use this feature. Or just send tokens to `0xb257A9F61A52D554F00db5994E98769e4DaA7f23` using your favorite signer')
+        }
+        var user_address = web3.eth.accounts[0];
+        if (typeof user_address === 'undefined') {
+            return alert('You need to log in MetaMask to use this feature.')
+        }
+        web3.eth.sendTransaction({
+            to: "0xb257A9F61A52D554F00db5994E98769e4DaA7f23",
+            from: user_address,
+            value: web3.toWei('0.00', 'ether')
+        }, function (err, transactionHash) {
+            if (err) return alert('Error occurs ;( Thanks for trying out!');
+        })
+    })
+</script>
+</body>
+</html>
